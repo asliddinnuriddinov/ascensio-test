@@ -1,0 +1,9 @@
+Please add the following placeholder images to the public directory:
+- iphone13.jpg
+- s22.jpg
+- pixel6.jpg
+- oneplus9.jpg
+- mi11.jpg
+- iphone12.jpg
+
+You can use any smartphone images for these placeholders.
