@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import styled from 'styled-components';
 import { ProductCard } from '@/entities/product/ui/ProductCard';
 import { Button } from '@/shared/ui/Button';
@@ -67,7 +67,7 @@ const NoResults = styled.div`
   padding: ${theme.spacing.xl};
 `;
 
-export default function ProductsPage() {
+function SearchProducts() {
   const [products, setProducts] = useState<Product[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -81,7 +81,7 @@ export default function ProductsPage() {
 
   useEffect(() => {
     // Initialize search query from URL
-    const query = searchParams.get('q') || '';
+    const query = searchParams?.get('q') || '';
     setSearchQuery(query);
     if (query) {
       handleSearch(query);
@@ -116,7 +116,7 @@ export default function ProductsPage() {
       setLoading(true);
       
       // Update URL with search query
-      const params = new URLSearchParams(searchParams);
+      const params = new URLSearchParams(searchParams?.toString() || '');
       if (query) {
         params.set('q', query);
       } else {
@@ -152,8 +152,7 @@ export default function ProductsPage() {
   };
 
   return (
-    <Container>
-      <Title>Our Products</Title>
+    <>
       <SearchContainer>
         <SearchInput
           type="text"
@@ -186,6 +185,17 @@ export default function ProductsPage() {
           {loading ? 'Loading...' : 'No products found'}
         </NoResults>
       )}
+    </>
+  );
+}
+
+export default function ProductsPage() {
+  return (
+    <Container>
+      <Title>Our Products</Title>
+      <Suspense fallback={<NoResults>Loading products...</NoResults>}>
+        <SearchProducts />
+      </Suspense>
     </Container>
   );
 }

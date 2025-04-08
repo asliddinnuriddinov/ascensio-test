@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  compiler: {
+    styledComponents: true, // Enable styled-components compilation
+  },
   images: {
     remotePatterns: [
       {
@@ -24,6 +27,9 @@ const nextConfig = {
       }
     ],
   },
+  // Improve production build
+  swcMinify: true,
+  reactStrictMode: true,
 }
 
 module.exports = nextConfig
